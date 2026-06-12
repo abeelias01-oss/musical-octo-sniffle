@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Level 1 ESOL – Dangerous Road Writing Lesson</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1008;--paper:#fdf6ec;--amber:#e07b00;--amber-d:#b85f00;--amber-l:#fff4e0;
+  --red:#c0392b;--red-l:#fdecea;--green:#1a7a3c;--green-l:#e6f7ec;
+  --slate:#2c3e50;--blue:#1565c0;--blue-l:#e3f2fd;
+  --purple:#7b1fa2;--purple-l:#f3e5f5;
+  --white:#fff;--cream:#f9f2e4;--fog:#78909c;
+  --radius:14px;--shadow:0 4px 24px rgba(0,0,0,.13);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100vh;font-family:"Nunito",sans-serif;background:#1a1a2e;color:var(--ink);overflow:hidden}
+
+/* ══ MODE SELECTOR ══ */
+#mode-select{position:fixed;inset:0;background:linear-gradient(160deg,#1a1a2e,#2c3e50);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:200;padding:28px 20px;text-align:center;gap:0}
+.ms-logo{font-size:3rem;margin-bottom:8px}
+.ms-title{font-family:"Playfair Display",serif;font-size:2rem;font-weight:900;color:#fff;line-height:1.15;margin-bottom:6px}
+.ms-sub{font-size:.95rem;font-weight:600;color:rgba(255,255,255,.6);margin-bottom:32px}
+.ms-cards{display:flex;flex-direction:column;gap:14px;width:100%;max-width:420px}
+.ms-card{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.15);border-radius:var(--radius);padding:20px 22px;cursor:pointer;transition:background .18s,border-color .18s,transform .13s;text-align:left}
+.ms-card:hover{background:rgba(255,255,255,.12);border-color:var(--amber);transform:scale(1.02)}
+.ms-card:active{transform:scale(.98)}
+.ms-card-icon{font-size:1.8rem;margin-bottom:6px}
+.ms-card-title{font-size:1.05rem;font-weight:900;color:#fff;margin-bottom:4px}
+.ms-card-desc{font-size:.85rem;font-weight:600;color:rgba(255,255,255,.55);line-height:1.5}
+
+/* ══ SLIDESHOW ══ */
+#slideshow{position:fixed;inset:0;background:#1a1a2e;display:none;flex-direction:column}
+#slideshow.active{display:flex}
+
+/* slide nav bar */
+.ss-nav{background:rgba(0,0,0,.4);padding:10px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ss-back{background:transparent;border:2px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);border-radius:30px;padding:6px 14px;font-family:"Nunito",sans-serif;font-size:.82rem;font-weight:800;cursor:pointer}
+.ss-back:hover{border-color:var(--amber);color:var(--amber)}
+.ss-prog-wrap{flex:1;background:rgba(255,255,255,.15);border-radius:10px;height:6px;overflow:hidden}
+.ss-prog-fill{height:100%;background:var(--amber);border-radius:10px;transition:width .4s ease}
+.ss-counter{font-size:.82rem;font-weight:800;color:rgba(255,255,255,.5);white-space:nowrap}
+.ss-dot-row{display:flex;gap:5px;flex-wrap:wrap;max-width:160px}
+.ss-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s,transform .15s}
+.ss-dot.active{background:var(--amber);transform:scale(1.4)}
+.ss-dot.done{background:rgba(255,255,255,.5)}
+
+/* slide stage */
+.ss-stage{flex:1;display:flex;align-items:stretch;overflow:hidden;position:relative}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;overflow-y:auto}
+.slide.active{display:flex}
+
+/* slide layout types */
+.sl-hero{background:linear-gradient(160deg,#1a1a2e 0%,#2c3e50 60%,#1a3a1a 100%);align-items:center;justify-content:center;padding:28px 22px;text-align:center;gap:0}
+.sl-content{background:var(--paper);padding:22px 20px 80px}
+.sl-dark{background:var(--slate);padding:22px 20px 80px}
+.sl-amber{background:linear-gradient(135deg,#fff4e0,#ffecc0);padding:22px 20px 80px}
+.sl-red{background:linear-gradient(135deg,#fdecea,#ffd5d0);padding:22px 20px 80px}
+.sl-green{background:linear-gradient(135deg,#e6f7ec,#c8f0d8);padding:22px 20px 80px}
+
+/* slide typography */
+.sl-eyebrow{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.15em;margin-bottom:8px}
+.sl-title{font-family:"Playfair Display",serif;font-size:1.9rem;font-weight:900;line-height:1.15;margin-bottom:10px}
+.sl-sub{font-size:.95rem;font-weight:600;line-height:1.6;margin-bottom:18px}
+.sl-title-sm{font-family:"Playfair Display",serif;font-size:1.45rem;font-weight:900;line-height:1.2;margin-bottom:12px}
+
+/* cards / chips */
+.card-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.info-card{background:rgba(255,255,255,.9);border-radius:var(--radius);padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.info-card.accent-red{border-left:5px solid var(--red)}
+.info-card.accent-green{border-left:5px solid var(--green)}
+.info-card.accent-amber{border-left:5px solid var(--amber)}
+.info-card.accent-blue{border-left:5px solid var(--blue)}
+.info-card.accent-purple{border-left:5px solid var(--purple)}
+.ic-title{font-size:.82rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.ic-body{font-size:.88rem;font-weight:600;color:#444;line-height:1.55}
+.chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.chip{padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:800;color:#fff}
+
+/* vocab table */
+.vocab-table{width:100%;border-collapse:collapse;margin-bottom:14px}
+.vocab-table th{background:var(--slate);color:#fff;font-size:.78rem;font-weight:800;padding:8px 10px;text-align:left;text-transform:uppercase;letter-spacing:.06em}
+.vocab-table td{padding:8px 10px;font-size:.85rem;font-weight:600;color:#333;border-bottom:1px solid #e8e0d0;line-height:1.45}
+.vocab-table tr:nth-child(even) td{background:rgba(0,0,0,.03)}
+.vocab-table td:first-child{font-weight:800;color:var(--slate)}
+
+/* task cards */
+.task-card{border-radius:var(--radius);padding:16px 18px;margin-bottom:12px}
+.task-card h3{font-size:.95rem;font-weight:900;margin-bottom:8px}
+.task-card p{font-size:.88rem;font-weight:600;color:#444;line-height:1.55}
+.task-card.opt-a{background:#e3f2fd;border:2.5px solid var(--blue)}
+.task-card.opt-b{background:var(--amber-l);border:2.5px solid var(--amber)}
+
+/* sentence frames */
+.frame-box{background:rgba(255,255,255,.85);border-radius:10px;padding:12px 14px;margin-bottom:8px;font-size:.88rem;font-weight:700;color:var(--slate);line-height:1.6;border-left:4px solid transparent}
+.frame-box.fb-past{border-left-color:var(--red)}
+.frame-box.fb-present{border-left-color:var(--blue)}
+.frame-box.fb-modal{border-left-color:var(--green)}
+.blank{display:inline-block;border-bottom:2.5px solid var(--amber);min-width:90px;margin:0 3px;font-weight:700;color:var(--amber-d)}
+
+/* slide foot nav */
+.ss-foot{position:fixed;bottom:0;left:0;right:0;background:rgba(26,26,46,.95);border-top:1px solid rgba(255,255,255,.1);padding:12px 18px;display:flex;gap:10px;z-index:50;backdrop-filter:blur(8px)}
+.ss-btn{flex:1;color:#fff;border:none;border-radius:50px;padding:13px;font-family:"Nunito",sans-serif;font-size:.95rem;font-weight:900;cursor:pointer;transition:transform .13s}
+.ss-btn.prev{background:rgba(255,255,255,.12)}
+.ss-btn.next{background:var(--amber)}
+.ss-btn:disabled{opacity:.35;pointer-events:none}
+.ss-btn:active{transform:scale(.97)}
+.ss-btn.goto-activity{background:var(--green);font-size:.9rem}
+
+/* ══ ACTIVITY (linking words) ══ */
+#activity{position:fixed;inset:0;display:none;flex-direction:column;background:var(--paper);overflow:hidden}
+#activity.active{display:flex}
+.act-header{background:var(--slate);padding:12px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.act-back{background:transparent;border:2px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);border-radius:30px;padding:6px 14px;font-family:"Nunito",sans-serif;font-size:.82rem;font-weight:800;cursor:pointer}
+.act-back:hover{border-color:var(--amber);color:var(--amber)}
+.act-title{font-family:"Playfair Display",serif;font-size:.95rem;font-weight:700;color:#fff;flex:1}
+.act-score{font-size:.85rem;font-weight:800;color:var(--amber);white-space:nowrap}
+.act-prog-wrap{background:var(--slate);padding:0 18px 8px;flex-shrink:0}
+.act-prog-track{background:rgba(255,255,255,.2);border-radius:10px;height:6px;overflow:hidden}
+.act-prog-fill{height:100%;background:linear-gradient(90deg,var(--amber),#f5c300);border-radius:10px;transition:width .5s ease}
+.act-prog-label{font-size:.68rem;font-weight:700;color:rgba(255,255,255,.45);text-align:right;margin-top:2px}
+
+.story-wrap{flex:1;overflow-y:auto;padding:16px 16px 90px;max-width:580px;margin:0 auto;width:100%}
+
+.para-block{margin-bottom:22px;background:#fff;border-radius:var(--radius);padding:18px 18px 20px;box-shadow:0 2px 12px rgba(0,0,0,.07);position:relative;overflow:hidden}
+.para-block::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+.para-block.c-mixed::before{background:var(--slate)}
+.para-block.c-contrast::before{background:var(--red)}
+.para-block.c-result::before{background:var(--purple)}
+.para-block.c-choice::before{background:var(--amber)}
+.para-block.c-time::before{background:var(--blue)}
+
+.para-scene{width:100%;height:140px;border-radius:10px;overflow:hidden;margin-bottom:12px}
+.para-scene svg{width:100%;height:100%;display:block}
+.para-label{display:inline-flex;align-items:center;gap:5px;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:8px}
+.para-title{font-family:"Playfair Display",serif;font-size:1.05rem;font-weight:700;color:var(--slate);margin-bottom:8px;line-height:1.3}
+.para-text{font-size:.93rem;font-weight:600;color:#333;line-height:1.9}
+
+.gap-wrap{display:inline-block;position:relative;vertical-align:middle;margin:0 2px}
+.gap-select{appearance:none;-webkit-appearance:none;background:var(--amber-l);border:2.5px solid var(--amber);border-radius:8px;padding:3px 26px 3px 8px;font-family:"Nunito",sans-serif;font-size:.88rem;font-weight:800;color:var(--amber-d);cursor:pointer;outline:none;transition:border-color .18s,background .18s;min-width:120px}
+.gap-select:focus{border-color:var(--amber-d)}
+.gap-select.ac{background:var(--green-l);border-color:var(--green);color:var(--green);pointer-events:none}
+.gap-select.aw{background:var(--red-l);border-color:var(--red);color:var(--red);pointer-events:none}
+.gap-arrow{position:absolute;right:7px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:.65rem;color:var(--amber-d)}
+.gap-badge{display:none;font-size:.68rem;font-weight:800;padding:2px 7px;border-radius:10px;margin-left:3px;vertical-align:middle}
+.gap-badge.bc{display:inline;background:var(--green-l);color:var(--green)}
+.gap-badge.bw{display:inline;background:var(--red-l);color:var(--red)}
+
+.para-check-btn{display:block;margin:14px 0 0 auto;background:var(--slate);color:#fff;border:none;border-radius:50px;padding:9px 22px;font-family:"Nunito",sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;transition:transform .13s,background .15s}
+.para-check-btn:hover{background:var(--amber-d)}
+.para-check-btn:disabled{background:#ccc;cursor:default}
+.para-check-btn:active{transform:scale(.97)}
+.para-feedback{display:none;margin-top:10px;border-radius:10px;padding:10px 13px;font-size:.85rem;font-weight:700;line-height:1.5}
+.para-feedback.show{display:block}
+.para-feedback.all-correct{background:var(--green-l);color:var(--green);border:2px solid var(--green)}
+.para-feedback.some-wrong{background:var(--red-l);color:var(--red);border:2px solid var(--red)}
+
+.act-footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #f0ebe0;padding:11px 16px;z-index:50}
+.btn-finish{width:100%;background:linear-gradient(135deg,var(--amber),var(--amber-d));color:#fff;border:none;border-radius:50px;padding:13px;font-family:"Nunito",sans-serif;font-size:.95rem;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(224,123,0,.35);transition:transform .13s;opacity:0;pointer-events:none}
+.btn-finish.visible{opacity:1;pointer-events:all}
+.btn-finish:active{transform:scale(.97)}
+
+/* ══ RESULTS ══ */
+#results-screen{position:fixed;inset:0;display:none;flex-direction:column;background:var(--slate);overflow-y:auto;padding:24px 18px 48px;align-items:center;text-align:center}
+#results-screen.active{display:flex}
+.res-trophy{font-size:3.5rem;margin-bottom:4px}
+.res-title{font-family:"Playfair Display",serif;font-size:1.6rem;font-weight:900;color:#fff;margin-bottom:4px}
+.res-name{font-size:.9rem;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:18px}
+.score-ring-wrap{position:relative;width:130px;height:130px;margin:0 auto 16px}
+.score-ring-wrap svg{transform:rotate(-90deg)}
+.score-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.score-num{font-family:"Playfair Display",serif;font-size:2rem;font-weight:900;color:#fff}
+.score-denom{font-size:.75rem;font-weight:700;color:rgba(255,255,255,.45)}
+.res-msg{font-size:.92rem;font-weight:700;color:rgba(255,255,255,.7);max-width:300px;margin-bottom:22px;line-height:1.5}
+.res-section-title{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);margin-bottom:10px}
+.cat-breakdown{width:100%;max-width:420px;display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.cb-row{display:flex;align-items:center;gap:9px}
+.cb-label{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.6);width:100px;flex-shrink:0;text-align:left}
+.cb-track{flex:1;background:rgba(255,255,255,.12);border-radius:10px;height:7px;overflow:hidden}
+.cb-fill{height:100%;border-radius:10px;transition:width 1s ease}
+.cb-frac{font-size:.8rem;font-weight:800;color:var(--amber);width:32px;text-align:right}
+.sum-grid{width:100%;max-width:420px;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;text-align:left}
+.sum-card{background:rgba(255,255,255,.07);border-radius:10px;padding:11px 13px;border-left:4px solid transparent}
+.sum-card.sc-ok{border-left-color:#4ade80}
+.sum-card.sc-bad{border-left-color:#f87171}
+.sum-glabel{font-size:.7rem;font-weight:800;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.sum-sent{font-size:.83rem;font-weight:600;color:rgba(255,255,255,.75);line-height:1.45}
+.sum-ans{font-size:.78rem;font-weight:800;margin-top:3px}
+.share-box{background:rgba(255,255,255,.07);border-radius:var(--radius);padding:12px 14px;width:100%;max-width:420px;font-size:.82rem;font-weight:600;color:rgba(255,255,255,.65);line-height:1.6;text-align:left;white-space:pre-wrap;margin-bottom:8px;cursor:pointer}
+.btn-copy{background:var(--amber);color:#fff;border:none;border-radius:50px;padding:11px 24px;font-family:"Nunito",sans-serif;font-size:.88rem;font-weight:800;cursor:pointer;width:100%;max-width:420px;margin-bottom:8px}
+.btn-retry{background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.2);border-radius:50px;padding:11px 24px;font-family:"Nunito",sans-serif;font-size:.88rem;font-weight:800;cursor:pointer;width:100%;max-width:420px;margin-bottom:8px}
+.btn-back-slides{background:var(--slate);color:rgba(255,255,255,.7);border:2px solid rgba(255,255,255,.2);border-radius:50px;padding:11px 24px;font-family:"Nunito",sans-serif;font-size:.88rem;font-weight:800;cursor:pointer;width:100%;max-width:420px}
+
+.toast{position:fixed;top:68px;left:50%;transform:translateX(-50%);background:rgba(26,16,8,.92);color:#fff;border-radius:30px;padding:9px 20px;font-size:.85rem;font-weight:700;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+@media(max-width:380px){.sl-title{font-size:1.55rem}.para-text{font-size:.88rem}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════
+     MODE SELECT
+══════════════════════════════════ -->
+<div id="mode-select">
+  <div class="ms-logo">🚦</div>
+  <div class="ms-title">Dangerous Road<br>Writing Lesson</div>
+  <div class="ms-sub">Level 1 ESOL · Green Street College</div>
+  <div class="ms-cards">
+    <div class="ms-card" onclick="startSlides()">
+      <div class="ms-card-icon">📽️</div>
+      <div class="ms-card-title">Part 1 — Lesson Slides</div>
+      <div class="ms-card-desc">Context, vocabulary, sentence frames and writing task — 10 slides to guide you before writing.</div>
+    </div>
+    <div class="ms-card" onclick="startActivity()">
+      <div class="ms-card-icon">📝</div>
+      <div class="ms-card-title">Part 2 — Linking Words Activity</div>
+      <div class="ms-card-desc">Gap-fill story about a dangerous road. 15 gaps, sound effects, instant feedback and a score summary.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SLIDESHOW
+══════════════════════════════════ -->
+<div id="slideshow">
+  <div class="ss-nav">
+    <button class="ss-back" onclick="exitSlides()">← Menu</button>
+    <div class="ss-prog-wrap"><div class="ss-prog-fill" id="ss-fill"></div></div>
+    <span class="ss-counter" id="ss-counter">1 / 10</span>
+    <div class="ss-dot-row" id="ss-dots"></div>
+  </div>
+  <div class="ss-stage" id="ss-stage">
+
+    <!-- SLIDE 1: TITLE -->
+    <div class="slide sl-hero active" id="sl-0">
+      <svg style="width:100%;height:180px;flex-shrink:0" viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0d1b2a"/><stop offset="100%" stop-color="#1b2b3a"/></linearGradient>
+        </defs>
+        <rect width="480" height="180" fill="url(#sky1)"/>
+        <circle cx="400" cy="35" r="18" fill="#f5e642" opacity=".7"/>
+        <ellipse cx="240" cy="130" rx="200" ry="32" fill="#2d2d2d"/>
+        <polygon points="190,180 290,180 278,95 202,95" fill="#1e1e1e"/>
+        <line x1="240" y1="180" x2="240" y2="95" stroke="#f5c300" stroke-width="2" stroke-dasharray="10,8" opacity=".6"/>
+        <rect x="168" y="155" width="72" height="18" rx="3" fill="#111"/>
+        <rect x="176" y="144" width="50" height="14" rx="4" fill="#1a1a1a"/>
+        <circle cx="180" cy="175" r="6" fill="#222"/><circle cx="180" cy="175" r="3" fill="#555"/>
+        <circle cx="220" cy="175" r="6" fill="#222"/><circle cx="220" cy="175" r="3" fill="#555"/>
+        <rect x="168" y="158" width="7" height="4" rx="1" fill="#ff1a1a" opacity=".9"/>
+        <rect x="233" y="158" width="7" height="4" rx="1" fill="#ff1a1a" opacity=".9"/>
+        <g transform="translate(330,88)">
+          <polygon points="0,-22 20,11 -20,11" fill="#e07b00" stroke="#fff" stroke-width="2"/>
+          <text x="0" y="8" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">!</text>
+        </g>
+        <line x1="110" y1="150" x2="110" y2="98" stroke="#1a1008" stroke-width="3"/>
+        <line x1="110" y1="118" x2="93" y2="105" stroke="#1a1008" stroke-width="2"/>
+        <line x1="110" y1="108" x2="126" y2="98" stroke="#1a1008" stroke-width="2"/>
+        <ellipse cx="240" cy="112" rx="110" ry="18" fill="#b0bec5" opacity=".12"/>
+      </svg>
+      <div style="padding:20px 22px 28px;text-align:center;display:flex;flex-direction:column;align-items:center">
+        <div class="sl-eyebrow" style="color:var(--amber)">Level 1 ESOL Writing</div>
+        <div class="sl-title" style="color:#fff;font-size:2rem">A Problem in<br>the Local Area</div>
+        <div class="sl-sub" style="color:rgba(255,255,255,.65)">A dangerous road · Green Street College<br>Today you will read, plan and write.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px">
+          <span class="chip" style="background:var(--red)">🚗 Road Safety</span>
+          <span class="chip" style="background:var(--blue)">✍️ Writing Task</span>
+          <span class="chip" style="background:var(--green)">🔗 Linking Words</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: THE SITUATION -->
+    <div class="slide sl-content" id="sl-1">
+      <div class="sl-eyebrow" style="color:var(--red)">🚨 The Situation</div>
+      <div class="sl-title-sm" style="color:var(--slate)">What happened near Green Street College?</div>
+      <svg style="width:100%;height:140px;border-radius:12px;margin-bottom:14px" viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="140" fill="#1a2535"/>
+        <ellipse cx="200" cy="100" rx="190" ry="28" fill="#2a2a2a"/>
+        <polygon points="155,140 245,140 234,75 166,75" fill="#1e1e1e"/>
+        <line x1="200" y1="140" x2="200" y2="80" stroke="#f5c300" stroke-width="2" stroke-dasharray="8,7" opacity=".5"/>
+        <g stroke="#7fb3d3" stroke-width="1" opacity=".3">
+          <line x1="50" y1="0" x2="40" y2="50"/><line x1="100" y1="10" x2="90" y2="60"/>
+          <line x1="280" y1="5" x2="270" y2="55"/><line x1="350" y1="0" x2="340" y2="50"/>
+        </g>
+        <g transform="translate(280,50)">
+          <polygon points="0,-18 16,9 -16,9" fill="#e07b00" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="6" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">!</text>
+        </g>
+        <!-- cyclist fallen -->
+        <circle cx="90" cy="112" r="6" fill="#78909c"/>
+        <line x1="90" y1="118" x2="85" y2="130" stroke="#78909c" stroke-width="2"/>
+        <line x1="90" y1="118" x2="100" y2="128" stroke="#78909c" stroke-width="2"/>
+        <ellipse cx="78" cy="128" rx="12" ry="5" fill="none" stroke="#78909c" stroke-width="2" transform="rotate(30,78,128)"/>
+        <text x="20" y="25" font-family="sans-serif" font-size="9" fill="#ef9a9a" opacity=".9">⚠ Last Friday — Green Street</text>
+        <text x="20" y="38" font-family="sans-serif" font-size="8" fill="#b0bec5" opacity=".6">Bus stop — no safe crossing</text>
+      </svg>
+      <div class="card-grid">
+        <div class="info-card accent-red">
+          <div class="ic-title" style="color:var(--red)">🚗 What happened?</div>
+          <div class="ic-body">Last Friday, a cyclist fell off his bike because a car came too close near the bus stop on Green Street.</div>
+        </div>
+        <div class="info-card accent-amber">
+          <div class="ic-title" style="color:var(--amber-d)">⚠️ The problem</div>
+          <div class="ic-body">Cars drive too fast. There is no safe crossing near the bus stop. Many students and parents are worried.</div>
+        </div>
+        <div class="info-card accent-blue">
+          <div class="ic-title" style="color:var(--blue)">📋 Your task</div>
+          <div class="ic-body">The council wants local people to write about this problem. You will write either a newspaper article or a formal letter.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: TASK OPTIONS -->
+    <div class="slide sl-amber" id="sl-2">
+      <div class="sl-eyebrow" style="color:var(--amber-d)">✍️ Your Writing Choice</div>
+      <div class="sl-title-sm" style="color:var(--slate)">Which option will you choose?</div>
+      <div class="task-card opt-a">
+        <h3 style="color:var(--blue)">📰 Option A — Newspaper Article</h3>
+        <p>Write for a local newspaper. <strong>Inform</strong> readers about what happened, <strong>explain</strong> the problem and <strong>suggest</strong> action.<br><br>
+        Audience: <em>the general public</em><br>
+        Tone: <em>informative and clear</em></p>
+      </div>
+      <div class="task-card opt-b">
+        <h3 style="color:var(--amber-d)">📩 Option B — Formal Letter</h3>
+        <p>Write to the local council. <strong>Explain</strong> the problem politely and <strong>ask</strong> for safer road measures.<br><br>
+        Audience: <em>council officers</em><br>
+        Tone: <em>formal and polite</em></p>
+      </div>
+      <div class="info-card" style="background:#fff3e0;border-left:4px solid var(--amber)">
+        <div class="ic-body">💡 Both options need: an opening sentence · details about the incident · a suggestion · a closing sentence.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: VOCABULARY -->
+    <div class="slide sl-content" id="sl-3">
+      <div class="sl-eyebrow" style="color:var(--slate)">📚 Useful Vocabulary</div>
+      <div class="sl-title-sm" style="color:var(--slate)">Words you need for this task</div>
+      <table class="vocab-table">
+        <tr><th>Category</th><th>Words</th></tr>
+        <tr><td>Problem nouns</td><td>traffic, road safety, accident, crossing, pavement, bus stop, speed limit, danger</td></tr>
+        <tr><td>Action verbs</td><td>report, explain, request, suggest, improve, protect, reduce, install</td></tr>
+        <tr><td>Adjectives</td><td>dangerous, busy, narrow, safe, serious, local, worried, urgent</td></tr>
+        <tr><td>People</td><td>residents, students, parents, drivers, cyclists, pedestrians, council officers</td></tr>
+      </table>
+      <div class="info-card accent-amber">
+        <div class="ic-title" style="color:var(--amber-d)">🎯 Target</div>
+        <div class="ic-body">Use at least <strong>4 words</strong> from this table in your writing. Highlight them when you have finished.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: VERB TENSES -->
+    <div class="slide sl-content" id="sl-4">
+      <div class="sl-eyebrow" style="color:var(--blue)">⏱ Verb Tenses</div>
+      <div class="sl-title-sm" style="color:var(--slate)">Which tense — and when?</div>
+      <div class="card-grid">
+        <div class="info-card accent-red">
+          <div class="ic-title" style="color:var(--red)">Past Simple → the incident</div>
+          <div class="ic-body">
+            <div class="frame-box fb-past">A cyclist <strong>fell</strong> off his bike. &nbsp; A car <strong>came</strong> too close.</div>
+            <div class="frame-box fb-past">People <strong>called</strong> for help. &nbsp; The accident <strong>happened</strong> last Friday.</div>
+          </div>
+        </div>
+        <div class="info-card accent-blue">
+          <div class="ic-title" style="color:var(--blue)">Present Simple → current facts</div>
+          <div class="ic-body">
+            <div class="frame-box fb-present">The road <strong>is</strong> busy. &nbsp; Drivers often <strong>go</strong> too fast.</div>
+            <div class="frame-box fb-present">Students <strong>feel</strong> unsafe. &nbsp; There <strong>is</strong> no safe crossing.</div>
+          </div>
+        </div>
+        <div class="info-card accent-green">
+          <div class="ic-title" style="color:var(--green)">Modal Verbs → suggestions</div>
+          <div class="ic-body">
+            <div class="frame-box fb-modal">The council <strong>should</strong> add a crossing.</div>
+            <div class="frame-box fb-modal">Drivers <strong>must</strong> slow down near schools.</div>
+            <div class="frame-box fb-modal">A speed limit <strong>could</strong> be reduced to 20 mph.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: LINKING WORDS -->
+    <div class="slide sl-content" id="sl-5">
+      <div class="sl-eyebrow" style="color:var(--purple)">🔗 Linking Words</div>
+      <div class="sl-title-sm" style="color:var(--slate)">Connect your ideas clearly</div>
+      <div class="card-grid">
+        <div class="info-card accent-green">
+          <div class="ic-title" style="color:var(--green)">➕ Add information</div>
+          <div class="chip-row"><span class="chip" style="background:var(--green)">also</span><span class="chip" style="background:var(--green)">in addition</span><span class="chip" style="background:var(--green)">furthermore</span><span class="chip" style="background:var(--green)">moreover</span></div>
+          <div class="ic-body" style="margin-top:8px">The road is narrow. <strong>In addition</strong>, there is no pavement for pedestrians.</div>
+        </div>
+        <div class="info-card accent-red">
+          <div class="ic-title" style="color:var(--red)">⚡ Show contrast</div>
+          <div class="chip-row"><span class="chip" style="background:var(--red)">but</span><span class="chip" style="background:var(--red)">however</span><span class="chip" style="background:var(--red)">although</span><span class="chip" style="background:var(--red)">even though</span></div>
+          <div class="ic-body" style="margin-top:8px">A sign was installed. <strong>However</strong>, drivers continue to ignore it.</div>
+        </div>
+        <div class="info-card accent-amber">
+          <div class="ic-title" style="color:var(--amber-d)">💡 Give a reason / result</div>
+          <div class="chip-row"><span class="chip" style="background:var(--amber-d)">because</span><span class="chip" style="background:var(--amber-d)">so</span><span class="chip" style="background:var(--amber-d)">therefore</span><span class="chip" style="background:var(--amber-d)">as a result</span></div>
+          <div class="ic-body" style="margin-top:8px">Cars drive too fast, <strong>so</strong> the road is very dangerous for cyclists.</div>
+        </div>
+        <div class="info-card accent-blue">
+          <div class="ic-title" style="color:var(--blue)">⏱ Sequence</div>
+          <div class="chip-row"><span class="chip" style="background:var(--blue)">first</span><span class="chip" style="background:var(--blue)">then</span><span class="chip" style="background:var(--blue)">after that</span><span class="chip" style="background:var(--blue)">finally</span></div>
+          <div class="ic-body" style="margin-top:8px"><strong>First</strong>, the council should install a crossing. <strong>Then</strong>, speed cameras could be added.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: OPENING & CLOSING -->
+    <div class="slide sl-content" id="sl-6">
+      <div class="sl-eyebrow" style="color:var(--slate)">✍️ Opening & Closing Sentences</div>
+      <div class="sl-title-sm" style="color:var(--slate)">Start and end with confidence</div>
+      <div class="card-grid">
+        <div class="info-card accent-blue">
+          <div class="ic-title" style="color:var(--blue)">📰 Newspaper Opening</div>
+          <div class="frame-box fb-present" style="background:var(--blue-l)">A serious road safety problem has worried students and residents near <span class="blank">________</span> College.</div>
+        </div>
+        <div class="info-card accent-blue">
+          <div class="ic-title" style="color:var(--blue)">📰 Newspaper Closing</div>
+          <div class="frame-box fb-present" style="background:var(--blue-l)">Local people are asking the council to act before a more serious <span class="blank">________</span> happens.</div>
+        </div>
+        <div class="info-card accent-amber">
+          <div class="ic-title" style="color:var(--amber-d)">📩 Letter Opening</div>
+          <div class="frame-box fb-modal" style="background:var(--amber-l)">I am writing to <span class="blank">________</span> a serious road safety problem near Green Street College.</div>
+        </div>
+        <div class="info-card accent-amber">
+          <div class="ic-title" style="color:var(--amber-d)">📩 Letter Closing</div>
+          <div class="frame-box fb-modal" style="background:var(--amber-l)">I hope you will look into this matter and take <span class="blank">________</span> as soon as possible.</div>
+        </div>
+      </div>
+      <div class="info-card" style="background:#f3e5f5;border-left:4px solid var(--purple);margin-top:4px">
+        <div class="ic-body">💡 The words in the blanks are: <strong>Green Street / accident / report / action</strong></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: WRITING PLAN -->
+    <div class="slide sl-green" id="sl-7">
+      <div class="sl-eyebrow" style="color:var(--green)">📋 Writing Plan</div>
+      <div class="sl-title-sm" style="color:var(--slate)">Six steps to a great piece of writing</div>
+      <div class="card-grid">
+        <div class="info-card accent-green">
+          <div class="ic-title" style="color:var(--green)">1 — Title / Address</div>
+          <div class="ic-body">Article: a short, clear headline. &nbsp; Letter: <em>Dear Sir or Madam,</em></div>
+        </div>
+        <div class="info-card accent-green">
+          <div class="ic-title" style="color:var(--green)">2 — Opening</div>
+          <div class="ic-body">Say what the problem is. Use one of the opening sentences from the previous slide.</div>
+        </div>
+        <div class="info-card accent-green">
+          <div class="ic-title" style="color:var(--green)">3 — Details</div>
+          <div class="ic-body">What happened last Friday? Who is worried? Use past simple and present simple.</div>
+        </div>
+        <div class="info-card accent-green">
+          <div class="ic-title" style="color:var(--green)">4 — Opinion / Reason</div>
+          <div class="ic-body">Why is the road unsafe? Use <em>because</em>, <em>however</em> and <em>in addition</em>.</div>
+        </div>
+        <div class="info-card accent-green">
+          <div class="ic-title" style="color:var(--green)">5 — Suggestion</div>
+          <div class="ic-body">What should the council do? Use modal verbs: <em>should, must, could.</em></div>
+        </div>
+        <div class="info-card accent-green">
+          <div class="ic-title" style="color:var(--green)">6 — Closing</div>
+          <div class="ic-body">End clearly and politely. Use one of the closing sentences from slide 7.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: CHECKLIST -->
+    <div class="slide sl-content" id="sl-8">
+      <div class="sl-eyebrow" style="color:var(--slate)">✅ Self-Check Checklist</div>
+      <div class="sl-title-sm" style="color:var(--slate)">Check your writing before you hand it in</div>
+      <div class="card-grid">
+        <div class="info-card accent-blue"><div class="ic-body">☐ &nbsp; Capital letters at the start of sentences and for names / places</div></div>
+        <div class="info-card accent-blue"><div class="ic-body">☐ &nbsp; Full stops, commas and question marks used correctly</div></div>
+        <div class="info-card accent-blue"><div class="ic-body">☐ &nbsp; Complete sentences — every sentence has a subject and a verb</div></div>
+        <div class="info-card accent-amber"><div class="ic-body">☐ &nbsp; At least <strong>4 vocabulary words</strong> from the word box</div></div>
+        <div class="info-card accent-red"><div class="ic-body">☐ &nbsp; Past simple for the incident · present simple for current facts</div></div>
+        <div class="info-card accent-green"><div class="ic-body">☐ &nbsp; At least <strong>3 linking words</strong> used correctly</div></div>
+        <div class="info-card accent-purple" style="border-left:5px solid var(--purple)"><div class="ic-body">☐ &nbsp; Right tone: informative (article) or polite/formal (letter)</div></div>
+        <div class="info-card accent-purple" style="border-left:5px solid var(--purple)"><div class="ic-body">☐ &nbsp; Clear opening sentence and clear closing sentence</div></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: GO TO ACTIVITY -->
+    <div class="slide sl-hero" id="sl-9">
+      <div style="padding:28px 22px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:0;flex:1;justify-content:center">
+        <div style="font-size:3rem;margin-bottom:8px">📝</div>
+        <div class="sl-eyebrow" style="color:var(--amber)">Ready to practise?</div>
+        <div class="sl-title" style="color:#fff;font-size:1.8rem;margin-bottom:12px">Now try the<br>Linking Words Activity</div>
+        <div class="sl-sub" style="color:rgba(255,255,255,.65);max-width:320px">Read a dramatic story about a dangerous night road. Fill in 15 gaps using the right linking word. Get instant feedback and a score.</div>
+        <button class="ss-btn goto-activity" style="max-width:280px;margin-top:8px" onclick="startActivity()">Start the activity 🚗</button>
+        <div style="margin-top:16px;font-size:.82rem;color:rgba(255,255,255,.4);font-weight:600">Or go back to the menu to write your article or letter first.</div>
+      </div>
+    </div>
+
+  </div><!-- /ss-stage -->
+  <div class="ss-foot">
+    <button class="ss-btn prev" id="ss-prev" onclick="ssNav(-1)" disabled>← Back</button>
+    <button class="ss-btn next" id="ss-next" onclick="ssNav(1)">Next →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     LINKING WORDS ACTIVITY
+══════════════════════════════════ -->
+<div id="activity">
+  <div class="act-header">
+    <button class="act-back" onclick="exitActivity()">← Menu</button>
+    <span class="act-title">🚗 The Road to Thornfield</span>
+    <span class="act-score" id="act-score">0 / 15</span>
+  </div>
+  <div class="act-prog-wrap">
+    <div class="act-prog-track"><div class="act-prog-fill" id="act-fill" style="width:0%"></div></div>
+    <div class="act-prog-label" id="act-label">0 of 15 answered</div>
+  </div>
+
+  <div class="story-wrap">
+
+    <!-- PARA 1 -->
+    <div class="para-block c-mixed" id="pb-0">
+      <div class="para-scene">
+        <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="140" fill="#0d1b2a"/>
+          <circle cx="340" cy="28" r="15" fill="#f5e642" opacity=".7"/>
+          <ellipse cx="200" cy="106" rx="160" ry="26" fill="#2d2d2d"/>
+          <polygon points="155,140 245,140 234,80 166,80" fill="#222"/>
+          <line x1="200" y1="140" x2="200" y2="85" stroke="#f5c300" stroke-width="2" stroke-dasharray="9,7" opacity=".6"/>
+          <ellipse cx="185" cy="136" rx="12" ry="4" fill="#fffde7" opacity=".45"/>
+          <ellipse cx="215" cy="136" rx="12" ry="4" fill="#fffde7" opacity=".45"/>
+          <rect x="163" y="124" width="70" height="14" rx="3" fill="#111"/>
+          <rect x="170" y="114" width="50" height="13" rx="4" fill="#1a1a1a"/>
+          <circle cx="174" cy="139" r="5" fill="#222"/><circle cx="174" cy="139" r="2.5" fill="#555"/>
+          <circle cx="212" cy="139" r="5" fill="#222"/><circle cx="212" cy="139" r="2.5" fill="#555"/>
+          <text x="25" y="32" font-family="serif" font-size="10" fill="#b0bec5" opacity=".7" font-style="italic">23:47 — Moorland Road</text>
+          <ellipse cx="200" cy="88" rx="90" ry="15" fill="#b0bec5" opacity=".1"/>
+        </svg>
+      </div>
+      <span class="para-label" style="background:#2c3e50">📍 Part 1 — Setting Off</span>
+      <div class="para-title">Late night. Empty road. A wrong decision.</div>
+      <div class="para-text">
+        It was nearly midnight when Daniel finally left the motorway and turned onto the narrow moorland road that led to Thornfield.
+        The weather forecast had warned of heavy rain and poor visibility.
+        <span class="gap-wrap" id="gw-0"><select class="gap-select" id="g-0" onchange="onGC(0)"><option value="">— choose —</option><option>nevertheless</option><option>furthermore</option><option>alternatively</option><option>consequently</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-0"></span></span>,
+        he had decided to press on rather than stop at a roadside hotel.
+        The road twisted sharply through the hills,
+        <span class="gap-wrap" id="gw-1"><select class="gap-select" id="g-1" onchange="onGC(1)"><option value="">— choose —</option><option>whereas</option><option>moreover</option><option>therefore</option><option>once</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-1"></span></span>
+        the motorway he had left behind had been wide, straight and well-lit.
+        His sat-nav had lost signal twenty minutes earlier.
+        <span class="gap-wrap" id="gw-2"><select class="gap-select" id="g-2" onchange="onGC(2)"><option value="">— choose —</option><option>as a result</option><option>in addition</option><option>on the other hand</option><option>although</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-2"></span></span>,
+        he was navigating entirely from memory — and he was not at all sure he was on the right road.
+      </div>
+      <button class="para-check-btn" id="pcb-0" onclick="checkP(0)">Check answers</button>
+      <div class="para-feedback" id="pf-0"></div>
+    </div>
+
+    <!-- PARA 2 -->
+    <div class="para-block c-contrast" id="pb-1">
+      <div class="para-scene">
+        <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="140" fill="#1a0a0a"/>
+          <g stroke="#7fb3d3" stroke-width="1" opacity=".3">
+            <line x1="40" y1="0" x2="30" y2="55"/><line x1="90" y1="10" x2="80" y2="65"/>
+            <line x1="160" y1="0" x2="150" y2="55"/><line x1="240" y1="5" x2="230" y2="60"/>
+            <line x1="310" y1="0" x2="300" y2="55"/><line x1="370" y1="8" x2="360" y2="63"/>
+          </g>
+          <ellipse cx="200" cy="108" rx="170" ry="25" fill="#2a2a2a"/>
+          <polygon points="155,140 245,140 234,78 166,78" fill="#1e1e1e"/>
+          <g transform="translate(300,55)"><polygon points="0,-18 16,9 -16,9" fill="#e07b00" stroke="#fff" stroke-width="1.5"/><text x="0" y="6" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">!</text></g>
+          <text x="18" y="130" font-family="sans-serif" font-size="9" fill="#ef9a9a" opacity=".8">⚠ Road narrows ahead</text>
+        </svg>
+      </div>
+      <span class="para-label" style="background:#c0392b">⚡ Contrast</span>
+      <div class="para-title">A warning sign — ignored.</div>
+      <div class="para-text">
+        A yellow warning sign appeared in the headlights: <em>"Road narrows — reduce speed."</em>
+        Daniel slowed down briefly.
+        <span class="gap-wrap" id="gw-3"><select class="gap-select" id="g-3" onchange="onGC(3)"><option value="">— choose —</option><option>however</option><option>furthermore</option><option>consequently</option><option>meanwhile</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-3"></span></span>,
+        within a minute he had accelerated again, telling himself he was almost there.
+        The road was treacherous —
+        <span class="gap-wrap" id="gw-4"><select class="gap-select" id="g-4" onchange="onGC(4)"><option value="">— choose —</option><option>not only slippery</option><option>not only wide</option><option>not only straight</option><option>not only safe</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-4"></span></span>
+        but also completely unlit for long stretches.
+        <span class="gap-wrap" id="gw-5"><select class="gap-select" id="g-5" onchange="onGC(5)"><option value="">— choose —</option><option>Even though</option><option>As a result</option><option>Furthermore</option><option>Subsequently</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-5"></span></span>
+        he could barely see twenty metres ahead, he refused to turn back.
+        Pride, it seemed, was stronger than common sense.
+      </div>
+      <button class="para-check-btn" id="pcb-1" onclick="checkP(1)">Check answers</button>
+      <div class="para-feedback" id="pf-1"></div>
+    </div>
+
+    <!-- PARA 3 -->
+    <div class="para-block c-result" id="pb-2">
+      <div class="para-scene">
+        <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="140" fill="#0a0a0a"/>
+          <path d="M155,140 Q165,118 170,95" stroke="#4a3728" stroke-width="4" fill="none" opacity=".6"/>
+          <path d="M228,140 Q223,118 218,95" stroke="#4a3728" stroke-width="4" fill="none" opacity=".6"/>
+          <path d="M0,132 Q45,145 90,135 Q120,128 155,140" fill="#1a1008" stroke="#2d1f0f" stroke-width="1"/>
+          <g transform="translate(95,118) rotate(-18)">
+            <rect x="0" y="0" width="66" height="16" rx="4" fill="#1e3a5f"/>
+            <rect x="7" y="-9" width="50" height="12" rx="4" fill="#1a3055"/>
+            <circle cx="11" cy="18" r="6" fill="#222"/><circle cx="11" cy="18" r="3" fill="#555"/>
+            <circle cx="55" cy="18" r="6" fill="#222"/><circle cx="55" cy="18" r="3" fill="#555"/>
+            <rect x="0" y="2" width="7" height="4" rx="1" fill="#ff1a1a" opacity=".9"/>
+            <rect x="59" y="2" width="7" height="4" rx="1" fill="#ff1a1a" opacity=".9"/>
+          </g>
+          <text x="230" y="70" font-family="sans-serif" font-size="9" fill="#ef9a9a" opacity=".85">⚠ The moment it went wrong</text>
+        </svg>
+      </div>
+      <span class="para-label" style="background:#7b1fa2">💡 Result</span>
+      <div class="para-title">The moment everything went wrong.</div>
+      <div class="para-text">
+        Then it happened. A sharp bend appeared with almost no warning.
+        Daniel braked hard, but the wet road gave him no grip.
+        <span class="gap-wrap" id="gw-6"><select class="gap-select" id="g-6" onchange="onGC(6)"><option value="">— choose —</option><option>consequently</option><option>nevertheless</option><option>alternatively</option><option>whereas</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-6"></span></span>,
+        the car skidded sideways across the road and into a shallow ditch on the left.
+        <span class="gap-wrap" id="gw-7"><select class="gap-select" id="g-7" onchange="onGC(7)"><option value="">— choose —</option><option>Furthermore</option><option>However</option><option>Alternatively</option><option>Eventually</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-7"></span></span>,
+        the car was stuck — the rear wheels spinning uselessly in the mud.
+        Daniel switched off the engine and sat in the sudden silence.
+        His phone showed one bar of signal.
+        <span class="gap-wrap" id="gw-8"><select class="gap-select" id="g-8" onchange="onGC(8)"><option value="">— choose —</option><option>on top of that</option><option>in spite of that</option><option>despite of that</option><option>nevertheless that</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-8"></span></span>,
+        the battery was at four percent.
+      </div>
+      <button class="para-check-btn" id="pcb-2" onclick="checkP(2)">Check answers</button>
+      <div class="para-feedback" id="pf-2"></div>
+    </div>
+
+    <!-- PARA 4 -->
+    <div class="para-block c-choice" id="pb-3">
+      <div class="para-scene">
+        <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="140" fill="#0d1b2a"/>
+          <rect x="175" y="40" width="50" height="75" rx="6" fill="#1565c0" opacity=".25"/>
+          <rect x="178" y="48" width="44" height="55" rx="3" fill="#1976d2" opacity=".35"/>
+          <text x="200" y="70" text-anchor="middle" font-size="8" fill="#fff" opacity=".8">📶 4%</text>
+          <text x="200" y="84" text-anchor="middle" font-size="7" fill="#f5c300" opacity=".9">CALL?</text>
+          <polygon points="50,125 22,68 78,68" fill="#fffde7" opacity=".2"/>
+          <circle cx="50" cy="130" r="7" fill="#bbb"/>
+          <rect x="308" y="78" width="18" height="13" rx="2" fill="#2d1f00"/>
+          <rect x="312" y="81" width="5" height="7" rx="1" fill="#f5c300" opacity=".6"/>
+          <rect x="319" y="81" width="5" height="7" rx="1" fill="#f5c300" opacity=".4"/>
+          <text x="18" y="40" font-family="sans-serif" font-size="9" fill="#b0bec5" opacity=".7" font-style="italic">Two choices. No time to waste.</text>
+        </svg>
+      </div>
+      <span class="para-label" style="background:#e07b00">🔀 Choice</span>
+      <div class="para-title">Two options. One chance.</div>
+      <div class="para-text">
+        He had two options.
+        He could call the emergency services immediately —
+        <span class="gap-wrap" id="gw-9"><select class="gap-select" id="g-9" onchange="onGC(9)"><option value="">— choose —</option><option>alternatively</option><option>moreover</option><option>consequently</option><option>even though</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-9"></span></span>,
+        he could leave the car and try to walk to the farmhouse he had spotted half a mile back.
+        <span class="gap-wrap" id="gw-10"><select class="gap-select" id="g-10" onchange="onGC(10)"><option value="">— choose —</option><option>Either option</option><option>Both options</option><option>Neither option</option><option>Every option</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-10"></span></span>
+        carried risk: the phone might die before the call connected,
+        <span class="gap-wrap" id="gw-11"><select class="gap-select" id="g-11" onchange="onGC(11)"><option value="">— choose —</option><option>whereas</option><option>furthermore</option><option>accordingly</option><option>before long</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-11"></span></span>
+        the walk in total darkness and rain could easily end in a second accident.
+        Daniel made a decision: he would call first.
+        <span class="gap-wrap" id="gw-12"><select class="gap-select" id="g-12" onchange="onGC(12)"><option value="">— choose —</option><option>Otherwise</option><option>Moreover</option><option>Nevertheless</option><option>Subsequently</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-12"></span></span>,
+        if there was no answer, he would walk.
+      </div>
+      <button class="para-check-btn" id="pcb-3" onclick="checkP(3)">Check answers</button>
+      <div class="para-feedback" id="pf-3"></div>
+    </div>
+
+    <!-- PARA 5 -->
+    <div class="para-block c-time" id="pb-4">
+      <div class="para-scene">
+        <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="bl" cx="50%" cy="100%" r="80%"><stop offset="0%" stop-color="#1565c0" stop-opacity=".65"/><stop offset="100%" stop-color="#1565c0" stop-opacity="0"/></radialGradient></defs>
+          <rect width="400" height="140" fill="#0a1628"/>
+          <ellipse cx="200" cy="140" rx="200" ry="60" fill="url(#bl)"/>
+          <rect x="118" y="88" width="90" height="30" rx="4" fill="#1a3a8f"/>
+          <rect x="128" y="72" width="70" height="22" rx="4" fill="#1565c0"/>
+          <circle cx="148" cy="88" r="4" fill="#2196f3" opacity=".9"/>
+          <circle cx="178" cy="88" r="4" fill="#ef5350" opacity=".9"/>
+          <circle cx="130" cy="120" r="7" fill="#222"/><circle cx="130" cy="120" r="3.5" fill="#555"/>
+          <circle cx="196" cy="120" r="7" fill="#222"/><circle cx="196" cy="120" r="3.5" fill="#555"/>
+          <circle cx="290" cy="95" r="7" fill="#78909c"/>
+          <rect x="284" y="103" width="12" height="20" rx="3" fill="#78909c"/>
+          <text x="18" y="25" font-family="sans-serif" font-size="9" fill="#81c784" opacity=".85" font-style="italic">01:23 — Help arrives</text>
+        </svg>
+      </div>
+      <span class="para-label" style="background:#1565c0">⏱ Time & Sequence</span>
+      <div class="para-title">Help arrives. A lesson learned.</div>
+      <div class="para-text">
+        The call connected with two percent battery remaining.
+        <span class="gap-wrap" id="gw-13"><select class="gap-select" id="g-13" onchange="onGC(13)"><option value="">— choose —</option><option>Subsequently</option><option>However</option><option>Alternatively</option><option>In spite of</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-13"></span></span>,
+        a rescue vehicle arrived within forty minutes.
+        The officer who helped him was calm and professional.
+        She told Daniel, without much sympathy, that this road claimed at least three vehicles every winter.
+        <span class="gap-wrap" id="gw-14"><select class="gap-select" id="g-14" onchange="onGC(14)"><option value="">— choose —</option><option>What is more</option><option>Despite this</option><option>Otherwise</option><option>Consequently</option></select><span class="gap-arrow">▼</span><span class="gap-badge" id="gb-14"></span></span>,
+        a new set of warning signs had been requested three times, but the council had not yet approved the budget.
+        Daniel sat in the back of the warm rescue vehicle, wrapped in a foil blanket, and thought about the hotel he had decided not to book.
+        Some lessons, it turns out, are only learned the hard way.
+      </div>
+      <button class="para-check-btn" id="pcb-4" onclick="checkP(4)">Check answers</button>
+      <div class="para-feedback" id="pf-4"></div>
+    </div>
+
+  </div><!-- /story-wrap -->
+  <div class="act-footer">
+    <button class="btn-finish" id="btn-finish" onclick="showResults()">See my results 🎓</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     RESULTS
+══════════════════════════════════ -->
+<div id="results-screen">
+  <div class="res-trophy" id="res-trophy"></div>
+  <div class="res-title">Activity Complete!</div>
+  <div class="res-name" id="res-name"></div>
+  <div class="score-ring-wrap">
+    <svg width="130" height="130" viewBox="0 0 130 130">
+      <circle cx="65" cy="65" r="52" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="13"/>
+      <circle cx="65" cy="65" r="52" fill="none" stroke-width="13" stroke-linecap="round"
+        id="res-arc" stroke-dasharray="327" stroke-dashoffset="327" stroke="#e07b00"/>
+    </svg>
+    <div class="score-center">
+      <span class="score-num" id="res-num">0</span>
+      <span class="score-denom">/ 15</span>
+    </div>
+  </div>
+  <div class="res-msg" id="res-msg"></div>
+  <div class="res-section-title">Category Breakdown</div>
+  <div class="cat-breakdown" id="res-cats"></div>
+  <div class="res-section-title">Answer Review</div>
+  <div class="sum-grid" id="res-sum"></div>
+  <div class="res-section-title">📤 Share on Teams</div>
+  <div class="share-box" id="share-box" onclick="copyShare()"></div>
+  <button class="btn-copy" onclick="copyShare()">📋 Copy to share</button>
+  <button class="btn-retry" onclick="retryActivity()">🔄 Try activity again</button>
+  <button class="btn-back-slides" onclick="backToMenu()">← Back to menu</button>
+</div>
+
+<script>
+/* ═══════ AUDIO ═══════ */
+const AC=new(window.AudioContext||window.webkitAudioContext)();
+function beep(f,d,t,v){const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.type=t||"sine";o.frequency.value=f;g.gain.setValueAtTime(v||.15,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.start();o.stop(AC.currentTime+d);}
+function sndOk(){beep(523,.1,"sine",.13);setTimeout(()=>beep(659,.1,"sine",.13),90);setTimeout(()=>beep(784,.18,"sine",.15),180);}
+function sndBad(){beep(220,.14,"sawtooth",.1);setTimeout(()=>beep(185,.22,"sawtooth",.08),110);}
+function sndFinish(){[523,659,784,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.18,"triangle",.15),i*110));}
+function sndSlide(){beep(440,.07,"sine",.08);}
+document.addEventListener("touchstart",()=>AC.resume(),{once:true});
+document.addEventListener("click",()=>AC.resume(),{once:true});
+
+/* ═══════ TOAST ═══════ */
+function toast(msg,d=2200){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),d);}
+
+/* ═══════ MODE SELECT ═══════ */
+function show(id){["mode-select","slideshow","activity","results-screen"].forEach(s=>{const el=document.getElementById(s);if(el){el.style.display="none";el.classList.remove("active");}});const el=document.getElementById(id);if(el){el.style.display="flex";if(id!=="mode-select")el.classList.add("active");window.scrollTo(0,0);}}
+
+/* ═══════ SLIDESHOW ═══════ */
+const TOTAL_SLIDES=10;
+let curSlide=0;
+function buildDots(){const row=document.getElementById("ss-dots");row.innerHTML="";for(let i=0;i<TOTAL_SLIDES;i++){const d=document.createElement("div");d.className="ss-dot"+(i===0?" active":"");d.onclick=()=>goSlide(i);row.appendChild(d);}}
+function goSlide(n){sndSlide();document.querySelectorAll(".slide").forEach(s=>s.classList.remove("active"));document.getElementById("sl-"+n).classList.add("active");curSlide=n;document.querySelectorAll(".ss-dot").forEach((d,i)=>{d.className="ss-dot"+(i===n?" active":(i<n?" done":""));});document.getElementById("ss-fill").style.width=((n+1)/TOTAL_SLIDES*100)+"%";document.getElementById("ss-counter").textContent=(n+1)+" / "+TOTAL_SLIDES;document.getElementById("ss-prev").disabled=n===0;document.getElementById("ss-next").disabled=n===TOTAL_SLIDES-1;document.getElementById("ss-stage").scrollTop=0;}
+function ssNav(d){goSlide(Math.max(0,Math.min(TOTAL_SLIDES-1,curSlide+d)));}
+function startSlides(){show("slideshow");buildDots();goSlide(0);}
+function exitSlides(){show("mode-select");}
+
+/* ═══════ ACTIVITY DATA ═══════ */
+const GAPS=[
+  {id:0,correct:"nevertheless",cat:"contrast",para:0,sentence:"The forecast warned of heavy rain. _____, he pressed on."},
+  {id:1,correct:"whereas",cat:"contrast",para:0,sentence:"The road twisted sharply, _____ the motorway had been wide and straight."},
+  {id:2,correct:"as a result",cat:"result",para:0,sentence:"The sat-nav lost signal. _____, he was navigating from memory."},
+  {id:3,correct:"however",cat:"contrast",para:1,sentence:"Daniel slowed down. _____, he accelerated again within a minute."},
+  {id:4,correct:"not only slippery",cat:"addition",para:1,sentence:"The road was treacherous — _____ but also completely unlit."},
+  {id:5,correct:"Even though",cat:"contrast",para:1,sentence:"_____ he could barely see ahead, he refused to turn back."},
+  {id:6,correct:"consequently",cat:"result",para:2,sentence:"The wet road gave no grip. _____, the car skidded into a ditch."},
+  {id:7,correct:"Furthermore",cat:"addition",para:2,sentence:"The car was stuck. _____, the wheels were spinning in mud."},
+  {id:8,correct:"on top of that",cat:"addition",para:2,sentence:"One bar of signal. _____, the battery was at 4%."},
+  {id:9,correct:"alternatively",cat:"choice",para:3,sentence:"He could call emergency services — _____, he could walk to the farmhouse."},
+  {id:10,correct:"Either option",cat:"choice",para:3,sentence:"_____ carried risk."},
+  {id:11,correct:"whereas",cat:"contrast",para:3,sentence:"The phone might die, _____ the walk could cause a second accident."},
+  {id:12,correct:"Otherwise",cat:"choice",para:3,sentence:"He would call first. _____, if no answer, he would walk."},
+  {id:13,correct:"Subsequently",cat:"time",para:4,sentence:"The call connected. _____, rescue arrived within forty minutes."},
+  {id:14,correct:"What is more",cat:"addition",para:4,sentence:"The road claimed vehicles every winter. _____, new signs had been requested three times."},
+];
+const CAT={contrast:{label:"⚡ Contrast",color:"#c0392b",total:0,correct:0},addition:{label:"➕ Addition",color:"#1a7a3c",total:0,correct:0},choice:{label:"🔀 Choice",color:"#e07b00",total:0,correct:0},result:{label:"💡 Result",color:"#7b1fa2",total:0,correct:0},time:{label:"⏱ Time",color:"#1565c0",total:0,correct:0}};
+GAPS.forEach(g=>CAT[g.cat].total++);
+const ST={answered:new Array(15).fill(false),correct:new Array(15).fill(false),paraChecked:new Array(5).fill(false)};
+
+function totAns(){return ST.answered.filter(Boolean).length;}
+function totOk(){return ST.correct.filter(Boolean).length;}
+
+function startActivity(){show("activity");resetActivity();}
+function exitActivity(){show("mode-select");}
+
+function resetActivity(){
+  ST.answered.fill(false);ST.correct.fill(false);ST.paraChecked.fill(false);
+  GAPS.forEach(g=>{const s=document.getElementById("g-"+g.id);if(s){s.value="";s.className="gap-select";s.disabled=false;}const w=document.getElementById("gw-"+g.id);if(w){w.className="gap-wrap";}const b=document.getElementById("gb-"+g.id);if(b){b.className="gap-badge";b.textContent="";}});
+  for(let i=0;i<5;i++){const cb=document.getElementById("pcb-"+i);if(cb)cb.disabled=false;const pf=document.getElementById("pf-"+i);if(pf){pf.className="para-feedback";pf.textContent="";}}
+  document.getElementById("btn-finish").classList.remove("visible");
+  document.getElementById("act-fill").style.width="0%";
+  document.getElementById("act-label").textContent="0 of 15 answered";
+  document.getElementById("act-score").textContent="0 / 15";
+}
+
+function onGC(id){if(ST.answered[id])return;updateProg();}
+function updateProg(){const d=totAns();document.getElementById("act-fill").style.width=(d/15*100)+"%";document.getElementById("act-label").textContent=d+" of 15 answered";document.getElementById("act-score").textContent=totOk()+" / 15";if(ST.paraChecked.every(Boolean))document.getElementById("btn-finish").classList.add("visible");}
+
+function checkP(pi){
+  sndSlide();
+  const pg=GAPS.filter(g=>g.para===pi);
+  let anyNew=false,allAns=true;
+  pg.forEach(g=>{
+    if(ST.answered[g.id])return;
+    const s=document.getElementById("g-"+g.id);
+    if(!s.value){allAns=false;return;}
+    anyNew=true;ST.answered[g.id]=true;
+    const ok=s.value.toLowerCase().trim()===g.correct.toLowerCase().trim();
+    ST.correct[g.id]=ok;
+    const w=document.getElementById("gw-"+g.id);
+    s.classList.add(ok?"ac":"aw");w.classList.add(ok?"ac":"aw");
+    const b=document.getElementById("gb-"+g.id);
+    b.textContent=ok?"✓":"✗ "+g.correct;b.className="gap-badge "+(ok?"bc":"bw");
+    setTimeout(()=>{if(ok)sndOk();else sndBad();},80);
+  });
+  if(!allAns&&!anyNew){toast("Fill in all the gaps first!");return;}
+  if(!allAns){toast("Complete all gaps in this section!");return;}
+  const allDone=pg.every(g=>ST.answered[g.id]);
+  if(!allDone){toast("Complete all gaps in this section!");return;}
+  document.getElementById("pcb-"+pi).disabled=true;
+  ST.paraChecked[pi]=true;
+  const pf=document.getElementById("pf-"+pi);
+  const allOk=pg.every(g=>ST.correct[g.id]);
+  pf.className="para-feedback show "+(allOk?"all-correct":"some-wrong");
+  if(allOk){pf.textContent="✅ All correct! Excellent work.";}
+  else{const bad=pg.filter(g=>!ST.correct[g.id]);pf.innerHTML="❌ "+bad.length+" incorrect. Correct: "+bad.map(g=>"<strong>"+g.correct+"</strong>").join(", ")+".";}
+  updateProg();
+}
+
+function showResults(){
+  sndFinish();buildResults();show("results-screen");
+}
+
+function buildResults(){
+  const total=totOk(),pct=Math.round(total/15*100),circ=2*Math.PI*52;
+  document.getElementById("res-arc").style.strokeDashoffset=circ*(1-total/15);
+  document.getElementById("res-num").textContent=total;
+  document.getElementById("res-name").textContent=document.getElementById("learner-name")?document.getElementById("learner-name").value||"Learner":"Learner";
+  const msgs=[{min:14,t:"🏆",m:"Outstanding! Superb command of linking words."},{min:11,t:"🥇",m:"Excellent! Just a couple of gaps to revisit."},{min:8,t:"🥈",m:"Good effort! Review the incorrect answers below."},{min:0,t:"🎓",m:"Keep practising — linking words take time to master!"}];
+  const m=msgs.find(x=>total>=x.min);
+  document.getElementById("res-trophy").textContent=m.t;
+  document.getElementById("res-msg").textContent=m.m;
+  const cats=JSON.parse(JSON.stringify(CAT));
+  GAPS.forEach(g=>{if(ST.correct[g.id])cats[g.cat].correct++;});
+  const cbd=document.getElementById("res-cats");cbd.innerHTML="";
+  Object.values(cats).forEach(c=>{const p=c.total>0?Math.round(c.correct/c.total*100):0;cbd.innerHTML+=`<div class="cb-row"><span class="cb-label">${c.label}</span><div class="cb-track"><div class="cb-fill" style="width:0%;background:${c.color}" data-w="${p}"></div></div><span class="cb-frac">${c.correct}/${c.total}</span></div>`;});
+  setTimeout(()=>document.querySelectorAll(".cb-fill").forEach(b=>b.style.width=b.dataset.w+"%"),300);
+  const sg=document.getElementById("res-sum");sg.innerHTML="";
+  GAPS.forEach(g=>{const sel=document.getElementById("g-"+g.id);const given=sel?sel.value:"—";const ok=ST.correct[g.id];const cc=CAT[g.cat].color;sg.innerHTML+=`<div class="sum-card ${ok?"sc-ok":"sc-bad"}"><div class="sum-glabel" style="color:${cc}">Gap ${g.id+1} · ${CAT[g.cat].label}</div><div class="sum-sent">${g.sentence.replace("_____","<strong style='color:"+(ok?"#4ade80":"#f87171")+"'>"+g.correct+"</strong>")}</div>${!ok?"<div class='sum-ans' style='color:#f87171'>✗ You chose: "+(given||"—")+"</div>":"<div class='sum-ans' style='color:#4ade80'>✓ Correct</div>"}</div>`;});
+  const date=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+  const cats2=JSON.parse(JSON.stringify(CAT));GAPS.forEach(g=>{if(ST.correct[g.id])cats2[g.cat].correct++;});
+  let txt=`📖 Linking Words — The Road to Thornfield
+${date}
+🎯 Score: ${total}/15 (${pct}%)
+
+`;
+  Object.values(cats2).forEach(c=>{txt+=`${c.label}: ${c.correct}/${c.total}
+`;});
+  txt+=`
+${m.m}`;
+  document.getElementById("share-box").textContent=txt;
+}
+
+function copyShare(){const t=document.getElementById("share-box").textContent;if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>toast("✅ Copied! Paste into Teams.",2500));}else{const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);toast("✅ Copied! Paste into Teams.",2500);}}
+function retryActivity(){resetActivity();show("activity");}
+function backToMenu(){show("mode-select");}
+
+/* init */
+(function(){document.getElementById("mode-select").style.display="flex";["slideshow","activity","results-screen"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});})();
+</script>
+</body>
+</html>
